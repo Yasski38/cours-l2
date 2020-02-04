@@ -63,9 +63,8 @@ pop() {
 }
 
 peek() {
-
+    return this.tab[this.tab.length - 1]; 
 }
-
 
 };
 
@@ -84,6 +83,36 @@ const fizzBuzz = (n) => {
  * console.log(4)
  * console.log('buzz')
  */
+
+// for (var fizzBuzz = 1; n <= 100; n++) {
+//     var message = ""; // Message à afficher, initialement vide
+//     if (n % 3 === 0) {
+//         // Nombre divisible par 3 : on ajoute "Fizz" au message
+//         message += 'Fizz';
+//     }
+//     if (n % 5 === 0) {
+//         // Nombre divisible par 5 : on ajoute "Buzz" au message
+//         message += 'Buzz';
+//     }
+//     if (message === "") {
+//         // Si message est vide, le nombre n'est divisible ni par 3, ni par 5 :
+//         // le message affiché sera le nombre
+//         message = n;
+//     }
+//     console.log(message);
+// }
+
+for (var i=1; i <= n; i++)
+{
+    if (i % 15 == 0)
+        console.log("fizzbuzz");
+    else if (i % 3 == 0)
+        console.log("fizz");
+    else if (i % 5 == 0)
+        console.log("buzz");
+    else
+        console.log(i);
+}
 
 };
 
@@ -105,6 +134,44 @@ const spirale = (n) => {
  *              [11, 16, 15, 6],
  *              [10,  9,  8, 7]]
  */
+ 
+ 
+    let result = new Array(n).fill().map(() => new Array(n).fill('')); // create empty n x n array
+    let counter = 1;
+    let startCol = 0;
+    let endCol = n - 1;
+    let startRow = 0;
+    let endRow = n - 1;
+    while (startCol <= endCol && startRow <= endRow) {
+        for (let i = startCol; i <= endCol; i++) {
+            result[startRow][i] = counter;
+            counter++;
+        }
+        startRow++;
+        for (let j = startRow; j <= endRow; j++) {
+            result[j][endCol] = counter;
+            counter++;
+        }
+
+        endCol--;
+
+        for (let i = endCol; i >= startCol; i--) {
+            result[endRow][i] = counter;
+            counter++;
+        }
+
+        endRow--;
+        for (let i = endRow; i >= startRow; i--) {
+            result[i][startCol] = counter;
+            counter++;
+        }
+
+        startCol++;
+
+    }
+
+    return result;
+
 
 };
 
@@ -138,6 +205,100 @@ const puissance4 = (grid) => {
  *   [ 2, 2, 1, 1, 2 ]]
  *   ) = 0
  */
+ 
+ var winRow=false;
+ 
+ // vérification horizontale
+ function checkRows() {
+  //four in a row
+  for (var j = 0; j < 5; j++) {
+    var currentCount = 1;
+    var currentToken = grid[0][j];
+    for (var i = 1; i < 5; i++) {
+      if (currentToken === grid[i][j]) {
+        currentCount++;
+        if (currentCount === 4) {
+          winRow = true;
+          break;
+        }
+      } else {
+        currentToken = grid[i][j];
+        currentCount = 1;
+      }
+    }
+  }
+}
+
+ // vérification verticale
+ 
+ 
+
+ var winColumn=false;
+function checkColumns() {
+  //four in a column
+  for (var i = 0; i < 7; i++) {
+    var currentCount = 1;
+    var currentToken = grid[i][0];
+    for (var j = 1; j < 7; j++) {
+      if (currentToken === grid[i][j]) {
+        currentCount++;
+        if (currentCount === 4) {
+          winColumn = true;
+          break;
+        }
+      } else {
+        currentToken = grid[i][j];
+        currentCount = 1;
+      }
+    }
+  }
+} 
+ 
+
+ 
+ // vérification diagonale
+ function checkBLTRdiagonals() {
+  for (var j = 0; j < 4; j++) {
+    for (var i = 0; i < 4; i++) {
+      var currentCount = 1;
+      var currentToken = grid[i][j];
+      for (var step = 1; step < 4; step++) {
+        if (currentToken === grid[i + step][j + step]) {
+          currentCount++;
+        } else {
+          break;
+        }
+        if (currentCount === 4) {
+          winDiagonal = true;
+        }
+      }
+    }
+  }
+}
+
+var winDiagonal=false;
+function checkTLBRdiagonals() {
+  for (var j = 4; j < 7; j++) {
+    for (var i = 0; i < 4; i++) {
+      var currentCount = 1;
+      var currentToken = grid[i][j];
+      for (var step = 1; step < 4; step++) {
+        if (currentToken === grid[i + step][j - step]) {
+          currentCount++;
+        } else {
+          break;
+        }
+        if (currentCount === 4) {
+          winDiagonal = true;
+        }
+      }
+    }
+  }
+}
+
+ 
+ 
+ 
 }
 
 module.exports = {
