@@ -1,14 +1,47 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import logo from './logo.svg';
-import Map from "./components/map/Map";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-	  <Map center={ { lat: 45.1885, lng: 5.7245} } />
+
+class App extends React.Component {
+  
+  
+  constructor () {
+    super();
+    this.state = { seconds: 0 };
+  }
+  
+  tick() {
+    this.setState(state => ({
+      seconds: state.seconds + 1
+    }));
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => this.tick(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+  
+  render() {
+    return (
+      <div className="App">
+      Secondes : {this.state.seconds}
     </div>
-  );
+    );
+  }
+  
+  
+  
 }
+
+
+ReactDOM.render(
+  <button/>,
+  document.getElementById('root')
+);
 
 export default App;

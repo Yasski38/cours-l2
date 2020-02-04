@@ -1,14 +1,51 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import logo from './logo.svg';
-import Map from "./components/map/Map";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-	  <Map center={ { lat: 45.1885, lng: 5.7245} } />
-    </div>
-  );
+  const mybutton = {
+    myAttribute: "my value",
+  }
+  
+
+class App extends React.Component {
+  
+ 
+
+  constructor () {
+    super();
+    this.state = {isToggle: false} ;
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick() {
+    this.setState((oldState) => ({
+        isToggle: ! oldState.isToggle
+      }));
+  }
+  
+  
+      
+  
+  render() {
+    return (
+      <button 
+      onClick={this.handleClick}
+      className= {this.state.isToggle ? 'toggled' : 'untoggled'}>
+      {this.state.isToggle ? 'toggled' : 'untoggled'}
+      </button>
+    );
+  }
+     
+    
+
 }
+
+
+ReactDOM.render(
+  <button/>,
+  document.getElementById('root')
+);
+
 
 export default App;

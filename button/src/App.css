@@ -1,3 +1,13 @@
+.toggled {
+
+  background-color:red;
+}
+
+.untoggled {
+
+  background-color:blue;
+}
+
 .App {
   text-align: center;
 }
