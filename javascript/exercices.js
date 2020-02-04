@@ -11,6 +11,18 @@ const anagrammes = (stringA, stringB) => {
    * anagrams('Hi there', 'Bye there') === false
    */
 
+
+
+
+    // fonction qui met dans l'ordre alphabetique
+    
+
+        const regex =  /([A-ZA-z])\w+/g;
+        const motA = stringA.split("").sort().join("").toLowerCase().match((regex) || []).join("");
+        const motB = stringB.split("").sort().join("").toLowerCase().match((regex) || []).join("");
+    return motA === motB;
+
+
 };
 
 
@@ -32,6 +44,29 @@ class Stack {
  * s.pop(); // returns 2
  * s.peek(); // returns 1
  */
+
+ constructor() {
+  this.tab=[];
+  // this.ind=indexOf(this.tab);
+ }
+
+ push(value) {
+  this.tab[this.tab.length] = value;
+ }
+
+pop() {
+  
+  const a=this.tab[this.tab.length-1];
+  this.tab.length = this.tab.length-1;
+  return a;
+
+}
+
+peek() {
+
+}
+
+
 };
 
 
