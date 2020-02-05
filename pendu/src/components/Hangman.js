@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import { randomWord } from "./words";
 import step0 from './images/0.jpg';
 import step1 from './images/1.jpg';
 import step2 from './images/2.jpg';
@@ -8,43 +8,92 @@ import step4 from './images/4.jpg';
 import step5 from './images/5.jpg';
 import step6 from './images/6.jpg';
 
+
 const API = 'https://api.github.com';
-const GIST = '';
-const TOKEN = '';
+const GIST = 'https://gist.github.com/Yasski38/de156e7ce697e13f8ea623ba5b0b736d.js';
+const TOKEN = 'de156e7ce697e13f8ea623ba5b0b736d';
 
 class Hangman extends Component {
   static defaultProps = {
+    maxWrong: 6,
+		images: [step0, step1, step2, step3, step4, step5, step6]
   };
 
   constructor(props) {
     super(props);
+    this.words=[];
+		this.state = {  mistake: 0, guessed: new Set(), answer: "" };
+		this.handleGuess = this.handleGuess.bind(this);
   }
 
   componentDidMount() {
+    this.fetchResults();
+   
   }
 
   async fetchResults() {
+     fetch(`${API}/gists/${TOKEN}`)
+     .then(response => response.json())
+     .then(data =>
+     {
+    // console.log(data);
+    this.words = data.files.ListeMot.content.split("\n");
+     console.log(data.files.ListeMot.content)
+      this.setState({
+        
+        answer: this.randomWord(),
+        isLoading: false,
+      })
+     }
+    )
+     
+    .catch(error => this.setState({ error, isLoading: false }));
   }
 
+
+
   randomWord() {
+    return this.words[Math.floor(Math.random() * this.words.length)];
   }
 
   guessedWord() {
+    return this.state.answer.split("").map(bingo => (this.state.guessed.has(bingo) ? bingo : "_"));
   }
 
   handleGuess(evt) {
+    let letter = evt.target.value;
+		this.setState(st => ({
+			guessed: st.guessed.add(letter),
+			mistake: st.mistake + (st.answer.includes(letter) ? 0 : 1)
+		}));
   }
 
   saveResults() {
   }
 
   generateButtons() {
+    return "abcdefghijklmnopqrstuvwxyz".split("").map(letter => (
+			<button
+				key={letter}
+				value={letter}
+				onClick={this.handleGuess}
+				disabled={this.state.guessed.has(letter)}
+			>
+				{letter}
+			</button>
+		));
   }
 
   resetButton = () => {
+      this.setState({
+  			mistake: 0,
+  			guessed: new Set(),
+  			answer: randomWord()
+  		});
   };
 
   render() {
+    console.log(this.words);
     if (this.state.answer === '') {
       return (
         <div className="Hangman">
