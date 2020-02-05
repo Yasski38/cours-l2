@@ -42,10 +42,4 @@ class App extends React.Component {
 }
 
 
-ReactDOM.render(
-  <button/>,
-  document.getElementById('root')
-);
-
-
 export default App;
